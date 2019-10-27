@@ -6,6 +6,9 @@ using namespace std;
 void Core::Initialize()
 {
     Page* mainMenu = new Page("Main Menu");
+    Page* searchBook = new Page("Search Book");
+    Page* sellBook = new Page("Sell Book");
+    Page* editBook = new Page("Edit Book");
     
     // set default page
     m_page = mainMenu;
@@ -20,10 +23,9 @@ void Core::Initialize()
     Page* setStock = new Page("Set Stock");
     Page* dispBook = new Page("Display Book");
     
-    Page* findBook = new Page("Find Book");
+    mainMenu->AddNChildren(4, addBook, searchBook, sellBook, editBook);
     
-    // set children and parents for each page
-    mainMenu->AddNChildren(2, addBook, findBook);
+    // set children and parents for addBook sub menu
     addBook->AddParent(mainMenu);
     addBook->AddChild(setTitle);
     setTitle->AddParent(addBook);
@@ -38,6 +40,17 @@ void Core::Initialize()
     setStock->AddChild(dispBook);
     dispBook->AddParent(setStock);
     dispBook->AddChild(mainMenu);
+    
+    // set children and parents for sellBook sub menu
+    sellBook->AddParent(mainMenu);
+    sellBook->AddChild(searchBook);
+    
+    // set children and parents for editBook sub menu
+    editBook->AddParent(mainMenu);
+    editBook->AddChild(searchBook);
+    
+    // set children and parents for searchBook sub menu
+    searchBook->AddNParents(3, mainMenu, sellBook, editBook);
 }
 
 void Core::Execute()
